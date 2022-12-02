@@ -49,6 +49,10 @@ export default function Navbar() {
                         <a className="nav-link" href="/Analytics">Analytics</a>
                     </li>
 
+                    <li className="nav-item">
+                        <a className="nav-link" href="/API">API-Screen</a>
+                    </li>
+
                     {/* <li className="nav-item">
                         <a className="nav-link" >View Tickets</a>
                     </li> */}

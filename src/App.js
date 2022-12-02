@@ -7,6 +7,7 @@ import Deploy from './Components/Deploy';
 import Analytics from './Components/Analytics';
 import { BrowserRouter as Router, Switch, Route, HashRouter,} from "react-router-dom";
 import Navbar from './Components/Navbar';
+import API from './Components/API';
 
 
 
@@ -71,17 +72,13 @@ function App() {
         </Route>
 
         <Route  path="/Analytics" component={Analytics}>
+        </Route>
 
+        <Route  path="/API" component={API}>
         </Route>
 
         
-
       </Switch>
-
-
-  {/* Footer section  */}
-    {/* <Footer/> */}
-  {/* Footer section  */}
 
 
     </div>

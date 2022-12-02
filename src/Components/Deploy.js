@@ -1,8 +1,10 @@
 import { ethers } from 'ethers'
-import React from 'react'
+import React, { useState } from 'react'
 import { contractABI, contractByteCode, ETHContractAddress, polygonContractAddress, ShardeumContractAddress } from '../Constants/Constants'
 
 function Deploy() {
+
+    const [name,setName]= useState("Payment Gateway")
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -12,6 +14,10 @@ function Deploy() {
         const contract = await factory.deploy();
         console.log("address- ", contract.address)
         window.alert(`contract depolyed at ${contract.address}`)
+    }
+
+    function GetName(e){
+        setName(e.target.value)
     }
 
     //  ########## EPNS ########
@@ -40,6 +46,26 @@ function Deploy() {
   return (
     <>
         <h1>Deploy</h1>
+
+        <br /><br />
+
+        <label for="cars">Select Blockchain:</label>
+
+        <select name="chains" id="chains" size="1" >
+            <option value="ETH-Goerli">ETH-Goerli</option>
+            <option value="Shardeum">Shardeum</option>
+            <option value="Polygon">Polygon</option>
+            <option value="Other">Other</option>
+        </select>
+        
+        <br />
+        <br />
+
+        <h4>Contract-Name</h4>
+        <input type="text" placeholder='Contract Name' onChange={GetName}/>
+
+        <br />
+        <br />
 
         <button onClick={deployContract}>Deploy Contract</button>
     </>
