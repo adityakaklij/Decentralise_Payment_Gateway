@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import {ethers} from 'ethers'
+import * as ethers from "ethers";
+import * as PushAPI from "@pushprotocol/restapi";
 import { contractABI, ERC20ABI, ETHContractAddress } from '../Constants/Constants';
 
 function API() {
@@ -24,10 +25,48 @@ function API() {
         window.alert("Approved")
         const tx = await contractInstantce.deposite(1000,"0x5a1899faff22a2b3ea0294d86cd1be6269931ef1")
         await tx.wait()
-        alert("Done!")
+        alert("Transaction Successful!")
+        sendNotification()
+    }
+
+    const sendNotification = async() => {
+        const PK = 'a3ffedde1'; // channel private key
+        const Pkey = `0x${PK}`;
+        const signer = new ethers.Wallet(Pkey);
+  
+    try {
+            const apiResponse = await PushAPI.payloads.sendNotification({
+            signer,
+            type: 3, // target
+            identityType: 2, // direct payload
+            notification: {
+            title: ` Succesfully received 121 USDT`,
+            body: `Succesfully received 121 USDT Payment received from Address`
+        },
+            payload: {
+            title: `Succesfully received 121 USDT`,
+            body: `Succesfully received 121 USDT Payment received from Address`,
+            cta: '',
+            img: ''
+        },
+            recipients: 'eip155:5:0x28C7F788dd7E7a47D681489A58492FC6E64090D3', // recipient address
+            channel: 'eip155:5:0x92382c1EC09a72cd4a6bA024C4553a16a2250C2F', // your channel address
+            env: 'staging'
+      });
+      
+      // apiResponse?.status === 204, if sent successfully!
+            console.log('API repsonse: ', apiResponse);
+    } catch (err) {
+      
+          console.error('Error: ', err);
+        }
+  
     }
 
     if(btnClicked){
+
+        
+
         return(
             <>
             {/*  Below this should be popped up after user click on Buy-now function */}
