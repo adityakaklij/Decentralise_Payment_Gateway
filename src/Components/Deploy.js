@@ -70,6 +70,7 @@ function Deploy() {
         <label for="cars">Select Blockchain:</label>
 
         <select name="chains" id="chains" size="1" >
+            <option value="ETH-Goerli">FVM</option>
             <option value="ETH-Goerli">ETH-Goerli</option>
             <option value="Shardeum">Shardeum</option>
             <option value="Polygon">Polygon</option>
@@ -81,12 +82,12 @@ function Deploy() {
 
         <label for="cars">Select Tokens:</label>
 
-        <select onChange={handleChange} name="make" placeholder='Select Tokens' className="selectpicker" multiple data-live-search="true">
+        <select onChange={handleChange} name="make" placeholder='Select Tokens' className="selectpicker" multiple data-live="true">
+            <option data-count="2" value="USDT">TFIL</option>
             <option data-count="2" value="USDT">USDT</option>
             <option data-count="23" value="ETH">ETH</option>
             <option data-count="433" value="MATIC">MATIC</option>
             <option data-count="45" value="SHM">SHM</option>
-            <option data-count="476" value="fETH">fETH</option>
             <option data-count="78" value="Other">Other</option>
             
         </select>

@@ -85,11 +85,7 @@ function App() {
     </Router>
 
   </div>
-
       );
-      
-
-
     }
 
 

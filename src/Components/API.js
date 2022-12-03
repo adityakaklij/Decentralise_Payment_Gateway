@@ -6,6 +6,7 @@ import { Chat } from "@pushprotocol/uiweb";
 
 
 
+
 function API() {
 
 
@@ -13,6 +14,8 @@ function API() {
     
     const [isWalletInstalled, setIsWalletInstalled] = useState(false)
     const [account, setAccount] = useState(null)
+
+    const WeiToEther = ethers.utils.parseUnits("10","ether")
     
     const connectWallet = async() =>{
         window.ethereum.request( {method: "eth_requestAccounts"})
@@ -38,13 +41,14 @@ function API() {
 
     const placeOrder = async() => {
 
+
         const ERC20contractInstance = new ethers.Contract('0x5a1899faff22a2b3ea0294d86cd1be6269931ef1',ERC20ABI,signer);
         // const getApprove = await ERC20contractInstance.approve(P2PCONTRACTADDRESS, utils.parseUnits(amountB));// amout B will taken from the smart contract.
-        const getApprove = await ERC20contractInstance.approve(ETHContractAddress,1000);// amout B will taken from the smart contract.
+        const getApprove = await ERC20contractInstance.approve(ETHContractAddress,WeiToEther);// amout B will taken from the smart contract.
         await getApprove.wait();
 
         window.alert("Approved")
-        const tx = await contractInstantce.deposite(1000,"0x5a1899faff22a2b3ea0294d86cd1be6269931ef1")
+        const tx = await contractInstantce.deposite(WeiToEther,"0x5a1899faff22a2b3ea0294d86cd1be6269931ef1")
         await tx.wait()
         alert("Transaction Successful!")
         sendTelMsg()
@@ -62,16 +66,16 @@ function API() {
             type: 3, // target
             identityType: 2, // direct payload
             notification: {
-            title: ` Succesfully received 121 USDT`,
-            body: `Succesfully received 121 USDT Payment received from Address`
+            title: ` Succesfully received ${WeiToEther} USDT`,
+            body: `Succesfully received ${WeiToEther} USDT Payment received from Address`
         },
             payload: {
-            title: `Succesfully received 121 USDT`,
-            body: `Succesfully received 121 USDT Payment received from Address`,
+            title: `Succesfully received ${WeiToEther} USDT`,
+            body: `Succesfully received ${WeiToEther} USDT Payment received from Address`,
             cta: '',
             img: ''
         },
-            recipients: 'eip155:5:0x28C7F788dd7E7a47D681489A58492FC6E64090D3', // recipient address
+            recipients: `eip155:5:${account}`, // recipient address
             channel: 'eip155:5:0x92382c1EC09a72cd4a6bA024C4553a16a2250C2F', // your channel address
             env: 'staging'
       });
@@ -87,15 +91,12 @@ function API() {
 
     // ########################### Telegram Bot starts here ###################
 
-
     async function sendTelMsg() {
         const link = await fetch("https://api.telegram.org/bot5974247608:AAG0BjQW3j6KZQUD1FpbCXUro8fzCEKavhE/sendMessage?chat_id=785696317&text=Payment%20received%20successfully%202")
         
     }
 
     if(btnClicked){
-
-        
 
         return(
             <>
@@ -112,7 +113,6 @@ function API() {
                         <option value="Polygon">Polygon</option>
                         <option value="Other">Other</option>
                     </select>
-                    
                     
 
                     {/* Select the Token */}
@@ -142,7 +142,7 @@ function API() {
 
                 <Chat
                     account={account} //user address 
-                    supportAddress="0x056397760b973BfB921Bc10Be9DA5034B1e921d7" //support address
+                    supportAddress="0x92382c1EC09a72cd4a6bA024C4553a16a2250C2F" //support address
                     apiKey="jVPMCRom1B.iDRMswdehJG7NpHDiECIHwYMMv6k2KzkPJscFIDyW8TtSnk4blYnGa8DIkfuacU0"
                         env="staging"
                     />
