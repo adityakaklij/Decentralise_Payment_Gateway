@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@pushprotocol/restapi": "^0.2.2",
+    "@pushprotocol/restapi": "^0.2.1",
+    "@pushprotocol/uiweb": "^0.2.3",
     "cra-template": "1.2.0",
+    "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
+    "node-telegram-bot-api": "^0.60.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.2.0",

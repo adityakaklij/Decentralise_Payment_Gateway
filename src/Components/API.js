@@ -1,12 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import * as ethers from "ethers";
 import * as PushAPI from "@pushprotocol/restapi";
 import { contractABI, ERC20ABI, ETHContractAddress } from '../Constants/Constants';
+import { Chat } from "@pushprotocol/uiweb";
+
+
 
 function API() {
 
-    const [btnClicked, setBtnClicked] = useState(false)
 
+    const [btnClicked, setBtnClicked] = useState(false)
+    
+    const [isWalletInstalled, setIsWalletInstalled] = useState(false)
+    const [account, setAccount] = useState(null)
+    
+    const connectWallet = async() =>{
+        window.ethereum.request( {method: "eth_requestAccounts"})
+        .then((accounts) => {
+          setAccount(accounts[0]);
+        }).catch( (e) => {
+          alert(e)
+        })
+    }
+
+    useEffect(() => {
+      
+        connectWallet()
+    })
+    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contractInstantce = new ethers.Contract(ETHContractAddress, contractABI,signer)
@@ -26,11 +47,12 @@ function API() {
         const tx = await contractInstantce.deposite(1000,"0x5a1899faff22a2b3ea0294d86cd1be6269931ef1")
         await tx.wait()
         alert("Transaction Successful!")
+        sendTelMsg()
         sendNotification()
     }
 
     const sendNotification = async() => {
-        const PK = 'a3ffedde1'; // channel private key
+        const PK = process.env.PRIVATE_KEY; // channel private key
         const Pkey = `0x${PK}`;
         const signer = new ethers.Wallet(Pkey);
   
@@ -61,6 +83,14 @@ function API() {
           console.error('Error: ', err);
         }
   
+    }
+
+    // ########################### Telegram Bot starts here ###################
+
+
+    async function sendTelMsg() {
+        const link = await fetch("https://api.telegram.org/bot5974247608:AAG0BjQW3j6KZQUD1FpbCXUro8fzCEKavhE/sendMessage?chat_id=785696317&text=Payment%20received%20successfully%202")
+        
     }
 
     if(btnClicked){
@@ -108,9 +138,16 @@ function API() {
 
                         <button onClick={placeOrder}>Place Order</button>
                     </div>
-                    
-
                 </div>
+
+                <Chat
+                    account={account} //user address 
+                    supportAddress="0x056397760b973BfB921Bc10Be9DA5034B1e921d7" //support address
+                    apiKey="jVPMCRom1B.iDRMswdehJG7NpHDiECIHwYMMv6k2KzkPJscFIDyW8TtSnk4blYnGa8DIkfuacU0"
+                        env="staging"
+                    />
+
+                    
             </>
         )
     }
@@ -124,6 +161,9 @@ function API() {
                 <br />
 
                 <button onClick={btnclicks}>Buy Now</button>
+                <button onClick={sendNotification}>sendNotification</button>
+                <button onClick={sendTelMsg}>sendTelMsg</button>
+                <h2>{account}</h2>
 
                 
             </div>

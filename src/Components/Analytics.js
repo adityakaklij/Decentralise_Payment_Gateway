@@ -35,40 +35,7 @@ function Analytics() {
     setConnectedChainId(chainId["name"])
 
 
-  }
-
-
-const sendNotification = async() => {
-      const PK = '6d8ba3ffedde1df8c24629d66bf7a48b8f1ba91f6205e5a0b3fbbeb6271d6d8f'; // channel private key
-      const Pkey = `0x${PK}`;
-    const signer = new ethers.Wallet(Pkey);
-
-  try {
-    const apiResponse = await PushAPI.payloads.sendNotification({
-      signer,
-      type: 3, // target
-      identityType: 2, // direct payload
-      notification: {
-        title: ` Succesfully received 121 USDT`,
-        body: `Succesfully received 121 USDT Payment received from Address`
-      },
-      payload: {
-        title: `Succesfully received 121 USDT`,
-        body: `Succesfully received 121 USDT Payment received from Address`,
-        cta: '',
-        img: ''
-      },
-      recipients: 'eip155:5:0x28C7F788dd7E7a47D681489A58492FC6E64090D3', // recipient address
-      channel: 'eip155:5:0x92382c1EC09a72cd4a6bA024C4553a16a2250C2F', // your channel address
-      env: 'staging'
-    });
-    
-    // apiResponse?.status === 204, if sent successfully!
-    console.log('API repsonse: ', apiResponse);
-  } catch (err) {
-    console.error('Error: ', err);
-  }
-
+  
   }
 
   return (
@@ -87,7 +54,6 @@ const sendNotification = async() => {
 
         <h3>Chain tx. :- {connectedChainId}</h3>
         <br /><br />
-        <button onClick={sendNotification}>Send Noti</button>
     </div>
   )
 }
