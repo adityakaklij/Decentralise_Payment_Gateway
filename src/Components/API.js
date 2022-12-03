@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
+import {ethers} from 'ethers'
+import { contractABI, ERC20ABI, ETHContractAddress } from '../Constants/Constants';
 
 function API() {
 
     const [btnClicked, setBtnClicked] = useState(false)
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contractInstantce = new ethers.Contract(ETHContractAddress, contractABI,signer)
 
     function btnclicks( ) {
         setBtnClicked(!btnClicked)
@@ -10,6 +16,15 @@ function API() {
 
     const placeOrder = async() => {
 
+        const ERC20contractInstance = new ethers.Contract('0x5a1899faff22a2b3ea0294d86cd1be6269931ef1',ERC20ABI,signer);
+        // const getApprove = await ERC20contractInstance.approve(P2PCONTRACTADDRESS, utils.parseUnits(amountB));// amout B will taken from the smart contract.
+        const getApprove = await ERC20contractInstance.approve(ETHContractAddress,1000);// amout B will taken from the smart contract.
+        await getApprove.wait();
+
+        window.alert("Approved")
+        const tx = await contractInstantce.deposite(1000,"0x5a1899faff22a2b3ea0294d86cd1be6269931ef1")
+        await tx.wait()
+        alert("Done!")
     }
 
     if(btnClicked){

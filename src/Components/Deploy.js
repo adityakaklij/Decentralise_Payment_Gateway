@@ -81,7 +81,7 @@ function Deploy() {
 
         <label for="cars">Select Tokens:</label>
 
-        <select onChange={handleChange} name="make" className="selectpicker" multiple data-live-search="true">
+        <select onChange={handleChange} name="make" placeholder='Select Tokens' className="selectpicker" multiple data-live-search="true">
             <option data-count="2" value="USDT">USDT</option>
             <option data-count="23" value="ETH">ETH</option>
             <option data-count="433" value="MATIC">MATIC</option>
